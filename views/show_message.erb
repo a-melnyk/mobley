@@ -1,7 +1,15 @@
-<script type="text/javascript" src="https://rawgit.com/chrisveness/b28bd30b2b0c03806b0c/raw/78e2e487627c9985d8ba16e4409657620b027c64/public%25E2%2580%2594js%25E2%2580%2594aes.js"></script>
-<script type="text/javascript" src="https://rawgit.com/chrisveness/b28bd30b2b0c03806b0c/raw/78e2e487627c9985d8ba16e4409657620b027c64/public%25E2%2580%2594js%25E2%2580%2594aes-ctr.js"></script>
+<script type="text/javascript" src="https://rawgit.com/keybase/triplesec/master/rel/triplesec-3.0.14-min.js"></script>
 <script type="text/javascript">
   var password = prompt('Enter password to view this message, please');
-  var decrypted = Aes.Ctr.decrypt('<%= @value %>', password, 256);
-  document.write(`<p><b>Message:</b> "${decrypted}"</p>`);
+  triplesec.decrypt ({
+    data:          new triplesec.Buffer("<%= @value %>", "hex"),
+    key:           new triplesec.Buffer(password)
+  }, function (err, buff) {
+    if (! err) {
+        console.log("decrypted message: " + buff.toString());
+        document.write("<p><b>Message:</b> " + buff.toString().replace(/\n/g, "<br>") + "</p>");
+    } else {
+      alert("Incorrect password");
+    }
+  });
 </script>

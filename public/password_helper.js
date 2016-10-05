@@ -1,12 +1,25 @@
-window.onload = function() {
+(function() {
+    var form = document.forms["mainForm"];
+    form.addEventListener("submit", encrypt);
 
-    document.getElementById('mainForm').onsubmit = function() {
+    function encrypt(e) {
+        e.preventDefault();
+        var form = this;
         var password = document.getElementById('password');
         var message = document.getElementById('message');
-        alert('mess: ' + message.value + 'pass: ' + password.value);
 
-        message.value = Aes.Ctr.encrypt(message.value, password.value, 256);
-
-        password.value = '';
-    };
-};
+        triplesec.encrypt({
+            data: new triplesec.Buffer(message.value),
+            key: new triplesec.Buffer(password.value)
+        }, function(err, buff) {
+            if (!err) {
+                password.value = '';
+                message.value = buff.toString('hex');
+                console.log('message: ' + message.value);
+                form.submit();
+            } else {
+                console.log("Error during ecrypting: " + err);
+            }
+        });
+    }
+}());
