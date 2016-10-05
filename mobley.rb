@@ -47,13 +47,12 @@ post '/' do
   Message.create(
     id: id,
     body: value,
-    created_at: DateTime.now,
     iv: Base64.encode64(iv),
     visits_to_live: visits_to_live,
     hours_to_live: hours_to_live
   )
-  "Thanks, your message was saved: #{params[:message]}, value: #{value}.<br>
-  URL: " + url("/message/#{id}")
+  @url = url("/message/#{id}")
+  erb :save_message
 end
 
 get '/message/:id' do
