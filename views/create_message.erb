@@ -1,9 +1,15 @@
+<link rel="stylesheet" href="loader.css">
+<div class="pace pace-active" id="loader">
+    <div class="pace-progress" data-progress="Encrypting" data-progress-text="Encrypting" style="-webkit-transform: translate3d(50%, 0px, 0px); -ms-transform: translate3d(50%, 0px, 0px); transform: translate3d(50%, 0px, 0px);">
+        <div class="pace-progress-inner"></div>
+    </div>
+    <div class="pace-activity"></div>
+</div>
 <h1>Leave Your message here</h1>
 <form id="mainForm" action="/" method="POST">
     <p><textarea rows="10" cols="55" name="message" id="message" autofocus required></textarea></p>
     <p><b>Choose Message destroy policy</b></p>
-    <p>after the first <input type="number" name="visits_to_live" min="1"> link visits<br>
-    after <input type="number" name="hours_to_live" min="1"> hour/s</p>
+    <p>after the first <input type="number" name="visits_to_live" min="1"> link visits<br> after <input type="number" name="hours_to_live" min="1"> hour/s</p>
     <p><b>Password: <b><input type="password" id="password"></p>
     <p><input type="submit"></p>
 </form>

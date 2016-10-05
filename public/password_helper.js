@@ -10,12 +10,16 @@
 
         triplesec.encrypt({
             data: new triplesec.Buffer(message.value),
-            key: new triplesec.Buffer(password.value)
+            key: new triplesec.Buffer(password.value),
+            progress_hook: function() {
+                var loader = document.getElementById('loader');
+                loader.style.visibility = 'visible';
+            }
         }, function(err, buff) {
             if (!err) {
+                console.log('message: ' + message.value);
                 password.value = '';
                 message.value = buff.toString('hex');
-                console.log('message: ' + message.value);
                 form.submit();
             } else {
                 console.log("Error during ecrypting: " + err);
