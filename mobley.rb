@@ -65,16 +65,8 @@ end
 
 get '/message/:id' do
   begin
-    @message = Message.get(params[:id])
-
-    @message.destroy if @message.hours_to_live > 0 && DateTime.now > @message.created_at + (@message.hours_to_live / 24.0)
-    @message.destroy if @message.visits_to_live.zero?
-    @message.update(visits_to_live: @message.visits_to_live - 1) if @message.visits_to_live > 0
-    @value = @message.body
-    c = cipher.decrypt
-    c.key = Digest::SHA256.digest(settings.key)
-    c.iv = Base64.decode64(@message.iv)
-    @value = c.update(Base64.decode64(@value.to_s)) + c.final
+    @message = Message.load_message(params[:id])
+    @message.decrypt!(settings.alg, settings.key)
     erb :show_message
   rescue
     404

@@ -6,13 +6,13 @@ if ('<%= @message.frontend_password %>' == 'true') {
   decryptMessage();
 } else {
   console.log('message is not encrypted');
-  document.write("<p><b>Message: </b><%= @value %>");
+  document.write("<p><b>Message: </b><%= @message.raw_message %>");
 };
 
 function decryptMessage() {
     var password = prompt('Enter password to view this message, please');
     triplesec.decrypt({
-        data: new triplesec.Buffer("<%= @value %>", "hex"),
+        data: new triplesec.Buffer("<%= @message.raw_message %>", "hex"),
         key: new triplesec.Buffer(password)
     }, function(err, buff) {
         if (!err) {
