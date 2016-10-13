@@ -6,7 +6,7 @@ if ('<%= @message.frontend_password %>' == 'true') {
   decryptMessage();
 } else {
   console.log('message is not encrypted');
-  document.write("<p><b>Message:</b> <%= @value %>");
+  document.write("<p><b>Message: </b><%= @value %>");
 };
 
 function decryptMessage() {

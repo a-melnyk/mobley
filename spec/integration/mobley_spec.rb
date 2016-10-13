@@ -46,7 +46,7 @@ describe 'Mobley Application' do
     @message.save
     get "/message/#{@message.id}"
     expect(last_response).to be_ok
-    response_message = last_response.body.scan(/data: new triplesec\.Buffer\("(.+)", "hex"\),/).join('')
+    response_message = last_response.body.scan(%r{document\.write\("<p><b>Message: <\/b>(.+)"\);}).join('')
     expect(response_message).to eq('test message')
   end
 
