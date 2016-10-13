@@ -16,4 +16,5 @@ group :development do
   gem 'rb-readline'
   gem 'terminal-notifier-guard'
   gem 'rubocop'
+  gem 'timecop'
 end

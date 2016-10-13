@@ -12,7 +12,7 @@ class Message
 
   attr_accessor :raw_message
 
-  def check_hours_to_live
+  def check_hours_to_live?
     if hours_to_live > 0
       expire_date = created_at + (hours_to_live / 24.0)
       if DateTime.now > expire_date
@@ -23,7 +23,7 @@ class Message
     true
   end
 
-  def check_visits_to_live
+  def check_visits_to_live?
     if visits_to_live.zero?
       destroy
       return false
@@ -38,11 +38,11 @@ class Message
   end
 
   def encrypt!(alg, key)
-    self.iv = Base64.encode64(cipher(alg).random_iv)
+    self.iv ||= Base64.strict_encode64(cipher(alg).random_iv)
     c = cipher(alg).encrypt
     c.key = Digest::SHA256.digest(key)
     c.iv = Base64.decode64(iv)
-    self.body = Base64.encode64(c.update(raw_message.to_s) + c.final)
+    self.body = Base64.strict_encode64(c.update(raw_message.to_s) + c.final)
   end
 
   def decrypt!(alg, key)
@@ -54,7 +54,7 @@ class Message
 
   def self.load_message(id)
     message = Message.get(id)
-    message if message.check_hours_to_live && message.check_visits_to_live
+    message if message.check_hours_to_live? && message.check_visits_to_live?
   end
 end
 
