@@ -1,6 +1,8 @@
 <script type="text/javascript" src="https://rawgit.com/keybase/triplesec/master/rel/triplesec-3.0.14-min.js"></script>
 <script type="text/javascript">
-    window.raw_message = "<%= @message.raw_message %>";
-    window.frontend_password = "<%= @message.frontend_password %>";
+    window.App = {
+        raw_message: "<%= @message.raw_message %>",
+        frontend_password: "<%= @message.frontend_password %>"
+    }
 </script>
 <script type="text/javascript" src="/decrypt_helper.js"></script>

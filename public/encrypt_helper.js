@@ -1,8 +1,10 @@
-(function() {
+(function(win) {
     var form = document.forms["mainForm"];
     form.addEventListener('submit', encrypt);
 
     function encrypt(e) {
+        var visits_to_live = document.getElementsByName('visits_to_live');
+        var hours_to_live = document.getElementsByName('hours_to_live');
         e.preventDefault();
         var form = this;
         var password = document.getElementById('password');
@@ -33,4 +35,4 @@
             form.submit();
         }
     }
-}());
+}(window));
