@@ -16,13 +16,12 @@
 # users commonly want.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+ENV['RACK_ENV'] = 'test'
 
 require 'rack/test'
 require 'rspec'
 require 'dm-rspec'
 require_relative '../mobley.rb'
-
-ENV['RACK_ENV'] = 'test'
 
 # sinatra rspec configuration http://www.sinatrarb.com/testing.html
 module RSpecMixin
