@@ -55,6 +55,11 @@ get '/message/:id' do
   end
 end
 
+error 400 do
+  '<h1>Bad request</h1><p>self-destruction of messages after given number of link visits <b>or</b> after
+given number of hours</p>'
+end
+
 error 404 do
   '<h1>No such message</h1>' if request.path.start_with? '/message/'
 end
