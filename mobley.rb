@@ -9,7 +9,7 @@ configure :development do
 end
 
 configure :production do
-  set :database, "sqlite3://#{Dir.pwd}/db/production.db"
+  set :database, 'postgres://pbczldlagazwow:YgrSwGbgURfYU8IHqjkhhrUsob@ec2-54-75-230-128.eu-west-1.compute.amazonaws.com/dc2hhm3s4vn2uv'
 end
 
 configure :test do
