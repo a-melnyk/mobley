@@ -13,6 +13,8 @@
                 data: new triplesec.Buffer(message.value),
                 key: new triplesec.Buffer(password.value),
                 progress_hook: function() {
+                    var message_input = document.getElementById('message_input');
+                    message_input.style.visibility = 'hidden'
                     var loader = document.getElementById('loader');
                     loader.style.visibility = 'visible';
                 }
