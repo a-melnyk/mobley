@@ -56,8 +56,8 @@ get '/message/:id' do
 end
 
 error 400 do
-  '<h1>Bad request</h1><p>self-destruction of messages after given number of link visits <b>or</b> after
-given number of hours</p>'
+  @url = url '/'
+  erb :err400
 end
 
 error 404 do
