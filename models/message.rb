@@ -37,6 +37,14 @@ class Message
     OpenSSL::Cipher::Cipher.new(alg)
   end
 
+  def encrypt!(alg, key)
+    self.iv = Base64.encode64(cipher(alg).random_iv)
+    c = cipher(alg).encrypt
+    c.key = Digest::SHA256.digest(key)
+    c.iv = Base64.decode64(iv)
+    self.body = Base64.encode64(c.update(raw_message.to_s) + c.final)
+  end
+
   def decrypt!(alg, key)
     c = cipher(alg).decrypt
     c.key = Digest::SHA256.digest(key)

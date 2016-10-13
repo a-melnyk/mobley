@@ -31,7 +31,6 @@ def cipher
 end
 
 get '/' do
-  # "Hello world, it's #{Time.now} at the server!"
   erb :create_message
 end
 
@@ -39,26 +38,15 @@ post '/' do
   return 400 if params[:visits_to_live].to_i > 0 && params[:hours_to_live].to_i > 0
 
   id = SecureRandom.hex(16)
-  value = params[:message]
-  iv = cipher.random_iv
-
-  c = cipher.encrypt
-  c.key = Digest::SHA256.digest(settings.key)
-  c.iv = iv
-  value = Base64.encode64(c.update(value.to_s) + c.final)
-
-  visits_to_live = params[:visits_to_live].to_i > 0 ? params[:visits_to_live].to_i : -1
-  hours_to_live = params[:hours_to_live].to_i > 0 ? params[:hours_to_live].to_i : -1
-  frontend_password = params[:password] == 'true' ? true : false
-
-  Message.create(
+  message = Message.new(
     id: id,
-    body: value,
-    iv: Base64.encode64(iv),
-    visits_to_live: visits_to_live,
-    hours_to_live: hours_to_live,
-    frontend_password: frontend_password
+    raw_message: params[:message],
+    visits_to_live: params[:visits_to_live].to_i > 0 ? params[:visits_to_live].to_i : -1,
+    hours_to_live: params[:hours_to_live].to_i > 0 ? params[:hours_to_live].to_i : -1,
+    frontend_password: params[:password] == 'true' ? true : false
   )
+  message.encrypt!(settings.alg, settings.key)
+  message.save
   @url = url("/message/#{id}")
   erb :save_message
 end
