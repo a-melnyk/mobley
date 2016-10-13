@@ -64,6 +64,6 @@ error 404 do
   '<h1>No such message</h1>' if request.path.start_with? '/message/'
 end
 
-get '/wipe' do
+get '/wipe_sdf908734534eriu3y45jhk345g' do
   Message.auto_migrate!
 end
