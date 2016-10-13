@@ -9,7 +9,7 @@
 <form id="mainForm" action="/" method="POST">
     <p><textarea rows="10" cols="55" name="message" id="message" autofocus required></textarea></p>
     <p><b>Choose Message destroy policy</b></p>
-    <p>after the first <input type="number" name="visits_to_live" min="1"> link visits<br> after <input type="number" name="hours_to_live" min="1"> hour/s</p>
+    <p>after the first <input type="number" name="visits_to_live" pattern="^[0-9]*$" min="1"> link visits<br> after <input type="number" name="hours_to_live" pattern="^[0-9]*$" min="1"> hour/s</p>
     <p><b>Password: <b><input type="password" name="password" id="password"></p>
     <p><input type="submit" id="btnSubmit"></p>
 </form>
