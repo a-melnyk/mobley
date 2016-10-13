@@ -21,6 +21,7 @@ ENV['RACK_ENV'] = 'test'
 require 'rack/test'
 require 'rspec'
 require 'dm-rspec'
+require 'timecop'
 require_relative '../mobley.rb'
 
 # sinatra rspec configuration http://www.sinatrarb.com/testing.html

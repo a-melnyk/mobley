@@ -1,3 +1,6 @@
+require 'base64'
+require 'openssl'
+
 # Structure of Message object
 class Message
   include DataMapper::Resource

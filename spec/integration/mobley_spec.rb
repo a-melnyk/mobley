@@ -1,6 +1,6 @@
 require_relative '../spec_helper.rb'
 
-describe 'Mobley Application' do
+describe 'Mobley Application Integration' do
   it 'should allow to access the main page' do
     get '/'
     expect(last_response).to be_ok
@@ -76,5 +76,21 @@ describe 'Mobley Application' do
     expect(last_response).to be_ok
     get "/message/#{@message.id}"
     expect(last_response).to be_not_found
+  end
+
+  it 'saved message with hours_to_live=n should expire after "n" hours (n=1)' do
+    @message = Message.new(
+      id: 'd2fa379b221ca08838358da6d8266380',
+      body: 'HT/YXj2GT08A0OBkjP//Bw==',
+      iv: 'H10I/DYZgBS5jAKG87P43A==',
+      visits_to_live: -1,
+      hours_to_live: 1
+    )
+    @message.save
+    time = DateTime.now + (1.1 / 24.0)
+    Timecop.freeze(time) do
+      get "/message/#{@message.id}"
+      expect(last_response).to be_not_found
+    end
   end
 end

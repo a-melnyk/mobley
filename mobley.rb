@@ -3,8 +3,6 @@ require 'bundler/setup'
 require 'sinatra'
 require 'data_mapper'
 require 'securerandom'
-require 'openssl'
-require 'base64'
 
 configure :development do
   set :database, "sqlite3://#{Dir.pwd}/db/development.db"
