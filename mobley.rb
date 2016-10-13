@@ -26,10 +26,6 @@ configure do
   require_relative 'models/message'
 end
 
-def cipher
-  OpenSSL::Cipher::Cipher.new(settings.alg)
-end
-
 get '/' do
   erb :create_message
 end
@@ -47,7 +43,7 @@ post '/' do
   )
   message.encrypt!(settings.alg, settings.key)
   message.save
-  @url = url("/message/#{id}")
+  @url = url "/message/#{id}"
   erb :save_message
 end
 
