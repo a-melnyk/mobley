@@ -8,6 +8,7 @@ class Message
   property :iv, String
   property :visits_to_live, Integer
   property :hours_to_live, Integer
+  property :frontend_password, Boolean, default: false
 end
 
 DataMapper.finalize

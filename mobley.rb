@@ -14,6 +14,10 @@ configure :production do
   set :database, "sqlite3://#{Dir.pwd}/db/production.db"
 end
 
+configure :test do
+  set :database, 'sqlite3::memory:'
+end
+
 configure do
   set :alg, 'aes-256-cbc'
   set :key, 'l3:x\@#W@Z9;1.WDhcAU*yM--FcFBJX'
@@ -32,6 +36,8 @@ get '/' do
 end
 
 post '/' do
+  return 400 if params[:visits_to_live].to_i > 0 && params[:hours_to_live].to_i > 0
+
   id = SecureRandom.hex(16)
   value = params[:message]
   iv = cipher.random_iv
@@ -43,13 +49,15 @@ post '/' do
 
   visits_to_live = params[:visits_to_live].to_i > 0 ? params[:visits_to_live].to_i : -1
   hours_to_live = params[:hours_to_live].to_i > 0 ? params[:hours_to_live].to_i : -1
+  frontend_password = params[:password] == 'true' ? true : false
 
   Message.create(
     id: id,
     body: value,
     iv: Base64.encode64(iv),
     visits_to_live: visits_to_live,
-    hours_to_live: hours_to_live
+    hours_to_live: hours_to_live,
+    frontend_password: frontend_password
   )
   @url = url("/message/#{id}")
   erb :save_message
@@ -60,7 +68,7 @@ get '/message/:id' do
     @message = Message.get(params[:id])
 
     @message.destroy if @message.hours_to_live > 0 && DateTime.now > @message.created_at + (@message.hours_to_live / 24.0)
-    @message.destroy if @message.visits_to_live == 0
+    @message.destroy if @message.visits_to_live.zero?
     @message.update(visits_to_live: @message.visits_to_live - 1) if @message.visits_to_live > 0
     @value = @message.body
     c = cipher.decrypt
