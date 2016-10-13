@@ -1,10 +1,6 @@
 require_relative '../spec_helper.rb'
 
 describe 'Mobley Application' do
-  before(:each) do
-    Message.auto_migrate!
-  end
-
   it 'should allow to access the main page' do
     get '/'
     expect(last_response).to be_ok

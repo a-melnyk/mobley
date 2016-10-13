@@ -38,7 +38,6 @@ guard :rspec, cmd: 'bundle exec rspec' do
   ruby = dsl.ruby
   dsl.watch_spec_files_for(ruby.lib_files)
 
-  watch('mobley.rb') { rspec.spec_dir }
+  watch(/^.+\.rb$/) { rspec.spec_dir }
   watch(%r{^views/(.+)\.erb$}) { 'spec/integration' }
-  
 end
