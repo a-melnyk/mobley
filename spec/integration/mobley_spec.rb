@@ -42,7 +42,7 @@ describe 'Mobley Application Integration' do
     @message.save
     get "/message/#{@message.id}"
     expect(last_response).to be_ok
-    response_message = last_response.body.scan(%r{document\.write\("<p><b>Message: <\/b>(.+)"\);}).join('')
+    response_message = last_response.body.scan(/raw_message: "(.+)",/).join('')
     expect(response_message).to eq('test message')
   end
 
